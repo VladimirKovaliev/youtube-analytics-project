@@ -1,5 +1,5 @@
 from pprint import pprint
-
+import json
 from googleapiclient.discovery import build
 
 
@@ -51,3 +51,22 @@ class Channel:
         ).execute()
         pprint(response)
 
+    @classmethod
+    def get_service(cls):
+        """Метод для получения объекта для работы с YouTube API."""
+        return build('youtube', 'v3', developerKey='your_developer_key')
+
+
+    def to_json(self, filename):
+        """Метод для сохранения значений атрибутов экземпляра в файл json."""
+        data = {
+            'id': self.id,
+            'title': self.title,
+            'description': self.channel_description,
+            'url': self.url,
+            'subscriber_count': self.subscribers_count,
+            'video_count': self.video_count,
+            'view_count': self.views_count,
+        }
+        with open(filename, 'w', encoding='utf-8') as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
