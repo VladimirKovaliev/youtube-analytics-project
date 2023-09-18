@@ -1,15 +1,17 @@
 from src.channel import Channel
-
+import os
 if __name__ == '__main__':
-    moscowpython = Channel('UC-OVMPlMA3-YCIeg4z5z23A')
+    channel_id = 'UC-OVMPlMA3-YCIeg4z5z23A'
+    api_key = os.getenv('YT_API_KEY')
+    moscowpython = Channel(channel_id, api_key)
 
     # получаем значения атрибутов
     print(moscowpython.title)  # MoscowPython
     print(moscowpython.video_count)  # 685 (может уже больше)
     print(moscowpython.url)  # https://www.youtube.com/channel/UC-OVMPlMA3-YCIeg4z5z23A
 
-    # менять не можем
-    moscowpython.channel_id = 'Новое название'
+    # менять не можем (чтобы проверить работоспособность, уберите '#' в начале 14-й строки)
+    #moscowpython.channel_id = 'Новое название'
     # AttributeError: property 'channel_id' of 'Channel' object has no setter
 
     # можем получить объект для работы с API вне класса
