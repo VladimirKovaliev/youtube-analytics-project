@@ -1,7 +1,9 @@
 from src.channel import Channel
-
+import os
 if __name__ == '__main__':
-    moscowpython = Channel('UC-OVMPlMA3-YCIeg4z5z23A')
+    channel_id = 'UC-OVMPlMA3-YCIeg4z5z23A'
+    api_key = os.getenv('YT_API_KEY')
+    moscowpython = Channel(channel_id, api_key)
 
     # получаем значения атрибутов
     print(moscowpython.title)  # MoscowPython
