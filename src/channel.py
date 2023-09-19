@@ -11,12 +11,23 @@ class Channel:
         self.id = channel_id
         self.api_key = api_key
         self.youtube = build('youtube', 'v3', developerKey=self.api_key)
+    def __str__(self):
+        return f'{self.title}, https://www.youtube.com/channel/{self.id}'
+
+    def __add__(self, other):
+        return int(self.subscribers_count) + int(other.subscribers_count)
+    def __sub__(self, other):
+        return int(self.subscribers_count) - int(other.subscribers_count)
+    def __gt__(self, other):
+        return int(self.subscribers_count) > int(other.subscribers_count)
+    def __ge__(self, other):
+        return int(self.subscribers_count) >= int(other.subscribers_count)
     @property
     def title(self):
         return self._get_data()['items'][0]['snippet']['title']
     @property
     def channel_id(self):
-        return self.channel_id
+        return {self.channel_id}
 
     @property
     def channel_description(self):
