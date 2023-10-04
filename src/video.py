@@ -1,5 +1,8 @@
 from pprint import pprint
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+
+
 
 class Video:
     def __init__(self, channel_id: str, api_key: str) -> None:
@@ -7,6 +10,16 @@ class Video:
         self.id = channel_id
         self.api_key = api_key
         self.youtube = build('youtube', 'v3', developerKey=self.api_key)
+
+        try:
+            data = self._get_data()
+            self.title = data['items'][0]['snippet']['title']
+            self.views_count = int(data['items'][0]['statistics']['viewCount'])
+            self.like_count = int(data['items'][0]['statistics']['likeCount'])
+        except IndexError:
+            self.title = None
+            self.views_count = None
+            self.like_count = None
 
     def __str__(self):
         return self._get_data()['items'][0]['snippet']['title']
@@ -24,12 +37,14 @@ class Video:
         return int(self._get_data()['items'][0]['statistics']['likeCount'])
 
 
+
     def _get_data(self) -> dict:
-        """Метод для получения данных о канале по API."""
+        """Метод для получения данных о видео по API."""
         return self.youtube.videos().list(
             part='snippet,statistics',
             id=self.id
         ).execute()
+
 
 
     def print_info(self) -> None:
